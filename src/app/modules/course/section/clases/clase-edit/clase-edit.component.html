@@ -1,0 +1,266 @@
+<!--begin::Modal content-->
+<div class="modal-content">
+  <!--begin::Modal header-->
+  <div class="modal-header" id="kt_modal_add_user_header">
+    <!--begin::Modal title-->
+    <h2 class="fw-bolder">Edit Clase: {{clase_selected.id}}</h2>
+    <!--end::Modal title-->
+    <!--begin::Close-->
+    <div class="btn btn-icon btn-sm btn-active-icon-primary" (click)="modal.dismiss()">
+      <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+      <span class="svg-icon svg-icon-1">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)"
+            fill="currentColor" />
+          <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor" />
+        </svg>
+      </span>
+      <!--end::Svg Icon-->
+    </div>
+    <!--end::Close-->
+  </div>
+  <!--end::Modal header-->
+  <!--begin::Modal body-->
+  <div class="modal-body scroll-y mx-5 my-7">
+      <!--begin::Form-->
+      <form id="kt_project_settings_form" class="form fv-plugins-bootstrap5 fv-plugins-framework"
+        novalidate="novalidate">
+        <span class="spinner-border spinner-border-sm align-middle ms-2" *ngIf="isLoading | async"></span>
+        <!--begin::Card body-->
+        <div class="card-body p-9">
+          <!--begin::Row-->
+          <div class="row mb-8">
+            <div class="col-10">
+              <label class="fs-6 fw-semibold mt-2 mb-3">Nombre de la clase</label>
+              <input type="text" class="form-control form-control-solid" [(ngModel)]="title" name="titulo"
+                placeholder="Introduccion" />
+            </div>
+
+
+          </div>
+          <!--end::Row-->
+
+
+          <select
+          class="form-control form-select-solid fw-bolder mb-5"
+          name="state"
+          placeholder="Estado"
+          [(ngModel)]="state"
+          >
+          <option value="1">Activo</option>
+          <option value="2">Desactivo</option>
+          </select>
+
+          <!--begin::Row-->
+          <div class="row mb-8">
+            <!--begin::Col-->
+            <div class="col-12">
+              <div class="fs-6 fw-semibold mt-2 mb-3">Descripcion</div>
+            </div>
+            <!--end::Col-->
+
+            <!--begin::Col-->
+            <div class="col-12 fv-row fv-plugins-icon-container">
+              <ckeditor [data]="description" (change)="onChange($event)"></ckeditor>
+
+            </div>
+            <!--begin::Col-->
+          </div>
+          <!--end::Row-->
+
+
+      <div class="row mb-8">
+        <div class="col-8">
+          <label class="form-label">Sube tu video de la clase: *</label>
+          <div class="custom-file">
+            <!-- (change)="processFile($event)"  -->
+            <input type="file"  style="width:100% !important;" class="custom-file-input" id="customFile" accept=".mp4" (change)="processVideo($event)"
+            />
+
+          </div>
+
+          <div *ngIf="link_video_clase" class="py-4">
+
+              <div style="padding:56.25% 0 0 0;position:relative;"><iframe [src]="urlVideo()" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Untitled"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+
+          </div>
+
+        </div>
+        <div class="col-4">
+          <button class="btn btn-sm btn-primary" (click)="uploadVideo()" *ngIf="!isUploadVideo">+</button>
+          <span class="spinner-border spinner-border-sm align-middle ms-2" *ngIf="isUploadVideo"></span>
+        </div>
+      </div>
+
+
+          <div class="row mb-8">
+            <!--begin::Col-->
+            <div class="col-12 d-flex gap-4">
+              <label class="form-label">Sube tus recursos de la clase: *</label>
+
+              <div >
+                <button class="btn btn-sm btn-primary" (click)="uploadFile()" *ngIf="!isUploadFiles">+</button>
+                <span class="spinner-border spinner-border-sm align-middle ms-2" *ngIf="isUploadFiles"></span>
+              </div>
+            </div>
+            <!--end::Col-->
+
+            <div class="col-5">
+
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="customFile"
+                   (change)="processFile($event)" multiple />
+                <label class="custom-file-label" for="customFile">Choose file</label>
+              </div>
+
+
+            </div>
+            <div class="col-8">
+              <div class="card card-flush h-xl-100">
+                <!--begin::Header-->
+                <div class="card-header pt-7">
+                  <!--begin::Title-->
+                  <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fw-bolder text-dark">Lista de Archivos</span>
+                    <span class="text-gray-400 mt-1 fw-bold fs-6">------------------  </span>
+                  </h3>
+                  <!--end::Title-->
+
+                </div>
+                <!--end::Header-->
+                <!--begin::Body-->
+                <div class="card-body">
+                  <!--begin::Scroll-->
+                  <div class="hover-scroll-overlay-y pe-6 me-n6">
+                    <ng-container *ngFor="let FILE of FILES">
+                      <!--begin::Item-->
+                      <div class="rounded border-gray-300 border-1 border-gray-300 border-dashed px-7 py-3 mb-6">
+                        <!--begin::Info-->
+                        <div class="d-flex flex-stack mb-3">
+                          <!--begin::Wrapper-->
+                          <div class="me-3">
+                            <!--begin::Icon-->
+                            <img src="assets/media/svg/files/doc.svg" class="w-50px ms-n1 me-1" alt="">
+                            <!--end::Icon-->
+                            <!--begin::Title-->
+                            <a href="#" onclick="return false;"
+                              class="text-gray-800 text-hover-primary fw-bolder">{{FILE.name}}</a>
+                            <!--end::Title-->
+                          </div>
+                          <!--end::Wrapper-->
+                          <!--begin::Action-->
+
+                          <!--end::Action-->
+                        </div>
+                        <!--end::Info-->
+                        <!--begin::Customer-->
+                        <div class="d-flex flex-stack">
+                          <!--begin::Name-->
+                          <span class="text-gray-400 fw-bolder">Size:
+                            <a href="#" onclick="return false;"
+                              class="text-gray-800 text-hover-primary fw-bolder">{{FILE.size}} KB</a></span>
+                          <!--end::Name-->
+                          <!--begin::Label-->
+                          <span class="badge badge-light-success">Activo</span>
+                          <!--end::Label-->
+                        </div>
+                        <!--end::Customer-->
+                      </div>
+                      <!--end::Item-->
+                    </ng-container>
+
+
+                  </div>
+                  <!--end::Scroll-->
+                </div>
+                <!--end::Body-->
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="card card-flush h-xl-100">
+                <!--begin::Header-->
+                <div class="card-header pt-7">
+                  <!--begin::Title-->
+                  <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fw-bolder text-dark">Lista de Archivos Subidos</span>
+                    <span class="text-gray-400 mt-1 fw-bold fs-6">recurso descargables</span>
+                  </h3>
+                  <!--end::Title-->
+
+                </div>
+                <!--end::Header-->
+                <!--begin::Body-->
+                <div class="card-body">
+                  <!--begin::Scroll-->
+                  <div class="hover-scroll-overlay-y pe-6 me-n6">
+                    <ng-container *ngFor="let FILE of FILES_CLASE">
+                      <!--begin::Item-->
+                      <div class="rounded border-gray-300 border-1 border-gray-300 border-dashed px-7 py-3 mb-6">
+                        <!--begin::Info-->
+                        <div class="d-flex flex-stack mb-3">
+                          <!--begin::Wrapper-->
+                          <div class="me-3">
+                            <!--begin::Icon-->
+                            <img src="assets/media/svg/files/doc.svg" class="w-50px ms-n1 me-1" alt="">
+                            <!--end::Icon-->
+                            <!--begin::Title-->
+                            <a href="#" onclick="return false;"
+                              class="text-gray-800 text-hover-primary fw-bolder">{{FILE.name_file}}</a>
+                            <!--end::Title-->
+                          </div>
+                          <!--end::Wrapper-->
+                          <!--begin::Action-->
+
+                          <!--end::Action-->
+                        </div>
+                        <!--end::Info-->
+                        <!--begin::Customer-->
+                        <div class="d-flex flex-stack">
+                          <!--begin::Name-->
+                          <span class="text-gray-400 fw-bolder">Size:
+                            <a href="#" onclick="return false;"
+                              class="text-gray-800 text-hover-primary fw-bolder">{{FILE.size}}</a></span>
+                          <!--end::Name-->
+                          <!--begin::Label-->
+                          <span class="badge badge-light-primary">{{FILE.type}}</span>
+                          <!--end::Label-->
+
+                          <span class="badge badge-light-danger cursor-pointer" (click)="deleteFile(FILE)">X</span>
+
+                        </div>
+                        <!--end::Customer-->
+                      </div>
+                      <!--end::Item-->
+                    </ng-container>
+
+
+                  </div>
+                  <!--end::Scroll-->
+                </div>
+                <!--end::Body-->
+              </div>
+            </div>
+
+
+          </div>
+
+
+
+        </div>
+        <!--end::Card body-->
+
+        <!--begin::Card footer-->
+        <div class="card-footer d-flex justify-content-end py-6 px-9">
+          <button type="button" (click)="save()" class="btn btn-primary" id="kt_project_settings_submit">
+            Guardar
+          </button>
+        </div>
+        <!--end::Card footer-->
+        <input type="hidden" />
+      </form>
+      <!--end:Form-->
+  </div>
+  <!--end::Modal body-->
+</div>
+<!--end::Modal content-->

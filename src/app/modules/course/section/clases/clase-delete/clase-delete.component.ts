@@ -1,17 +1,19 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CourseService } from '../service/course.service';
+import { CourseService } from '../../../service/course.service';
 import { Toaster } from 'ngx-toast-notifications';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-course-delete',
-  templateUrl: './course-delete.component.html',
-  styleUrls: ['./course-delete.component.scss']
+  selector: 'app-clase-delete',
+  templateUrl: './clase-delete.component.html',
+  styleUrls: ['./clase-delete.component.scss']
 })
-export class CourseDeleteComponent implements OnInit {
-  @Input() course:any
+export class ClaseDeleteComponent implements OnInit {
 
-  @Output() CourseD:EventEmitter<any> = new EventEmitter();
+
+  @Input() clase_selected:any
+
+  @Output() ClaseD:EventEmitter<any> = new EventEmitter();
 
   isLoading :any
   constructor(
@@ -25,8 +27,8 @@ export class CourseDeleteComponent implements OnInit {
   }
 
   delete(){
-    this.courseService.deleteCourses(this.course.id).subscribe((resp:any)=>{
-      this.CourseD.emit("")
+    this.courseService.deleteClase(this.clase_selected.id).subscribe((resp:any)=>{
+      this.ClaseD.emit("")
     this.modal.dismiss()
     })
   }

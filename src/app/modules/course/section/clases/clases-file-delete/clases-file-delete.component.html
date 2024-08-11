@@ -3,7 +3,7 @@
                 <!--begin::Modal header-->
                 <div class="modal-header" id="kt_modal_add_user_header">
                   <!--begin::Modal title-->
-                  <h2 class="fw-bolder">Delete Course: #{{course.id}}</h2>
+                  <h2 class="fw-bolder">Delete File: #{{file_selected.id}}</h2>
                   <!--end::Modal title-->
                   <!--begin::Close-->
                   <div class="btn btn-icon btn-sm btn-active-icon-primary" (click)="modal.dismiss()">
@@ -20,16 +20,16 @@
                 </div>
                 <!--end::Modal header-->
                 <!--begin::Modal body-->
-                <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+                <div class="modal-body scroll-y mx-2 mx-xl-10 my-7">
                   <!--begin::Form-->
                   <form id="kt_modal_add_user_form" class="form" action="#">
-                    <p class="fw-bolder text-center">
-                      ¿Estas seguro de eliminar esta categoria?
-                    </p>
+                    <h2 class="fw-bolder text-center">
+                      ¿Estas seguro de eliminar esta archivo?
+                    </h2>
                     <!--begin::Actions-->
                     <div class="text-center pt-15">
-                      <button type="reset" class="btn btn-light me-3" (click)="modal.dismiss()">Cerrar</button>
-                      <button type="button" (click)="delete()" class="btn btn-danger" data-kt-users-modal-action="submit">
+                      <button type="reset" class="btn btn-light me-3 btn-sm" (click)="modal.dismiss()">Cerrar</button>
+                      <button type="button" (click)="delete()" class="btn btn-danger btn-sm" data-kt-users-modal-action="submit">
                         <span class="indicator-label" >Eliminar</span>
                         <span class="spinner-border spinner-border-sm align-middle ms-2" *ngIf="isLoading | async"></span>
                       </button>

@@ -18,6 +18,7 @@ import { CKEditorModule } from 'ckeditor4-angular';
 
 import { ToastNotificationsModule } from 'ngx-toast-notifications';
 
+
 function appInitializer(authService: AuthService) {
   return () => {
     return new Promise((resolve) => {
@@ -28,7 +29,7 @@ function appInitializer(authService: AuthService) {
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

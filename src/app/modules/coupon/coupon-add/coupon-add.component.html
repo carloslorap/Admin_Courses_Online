@@ -1,0 +1,280 @@
+<div class="card">
+  <!--begin::Card header-->
+  <div class="card-header">
+    <!--begin::Card title-->
+    <div class="card-title fs-3 fw-bold">Registrar Nuevo Cupon</div>
+    <!--end::Card title-->
+  </div>
+  <!--end::Card header-->
+
+  <!--begin::Form-->
+  <form id="kt_project_settings_form" class="form fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate">
+    <span class="spinner-border spinner-border-sm align-middle ms-2" *ngIf="isLoading | async"></span>
+    <!--begin::Card body-->
+    <div class="card-body p-9">
+      <!--begin::Row-->
+      <div class="row mb-8 align-items-center">
+        <div class="col-5">
+          <label class="fs-6 fw-semibold mt-2 mb-3">Codigo del cupon</label>
+          <input type="text" class="form-control form-control-solid" [(ngModel)]="code" name="code" placeholder="-----------" />
+        </div>
+        <div class="col-3">
+          <div class="row g-9">
+            <div class="col-12">
+                <label class="btn btn-outline btn-outline-dashed btn-outline-default d-flex text-start p-6" [ngClass]="{'active':type_discount=== 1}" data-kt-button="true">
+                    <span class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                        <input class="form-check-input" type="radio" name="type_discount" [checked]="type_discount === 1" (click)="selectedTypeDiscount(1)">
+                    </span>
+                    <span class="ms-5">
+                        <span class="fs-6 fw-bolder mb-1 d-block">Porcentaje</span>
+                    </span>
+                </label>
+            </div>
+            <div class="col-12">
+                <label class="btn btn-outline btn-outline-dashed btn-outline-default d-flex text-start p-6" [ngClass]="{'active':type_discount=== 2}" data-kt-button="true">
+                    <span class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                        <input class="form-check-input" type="radio" name="type_discount" [checked]="type_discount === 2" (click)="selectedTypeDiscount(2)">
+                    </span>
+                    <span class="ms-5">
+                        <span class="fs-6 fw-bolder mb-1 d-block">Monto fijo</span>
+                    </span>
+                </label>
+            </div>
+        </div>
+
+
+        </div>
+
+        <div class="col-3">
+          <label class="fs-6 fw-semibold mt-2 mb-3">Precio en Soles</label>
+          <input type="number" class="form-control form-control-solid" name="discount" [(ngModel)]="discount" placeholder="40" />
+        </div>
+
+      </div>
+      <!--end::Row-->
+
+
+      <div class="row mb-8 align-items-center">
+        <div class="col-3">
+          <div class="row g-9">
+            <div class="col-12">
+                <label class="btn btn-outline btn-outline-dashed btn-outline-default d-flex text-start p-6" [ngClass]="{'active':type_count=== 1}"  data-kt-button="true">
+                    <span class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                        <input class="form-check-input" type="radio" name="type_count" [checked]="type_count === 1" (click)="selectedTypeCount(1)">
+                    </span>
+                    <span class="ms-5">
+                        <span class="fs-6 fw-bolder mb-1 d-block">Ilimitado</span>
+                    </span>
+                </label>
+            </div>
+            <div class="col-12">
+                <label class="btn btn-outline btn-outline-dashed btn-outline-default d-flex text-start p-6" [ngClass]="{'active':type_count=== 2}"  data-kt-button="true">
+                    <span class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                        <input class="form-check-input" type="radio" name="type_count" [checked]="type_count === 2" (click)="selectedTypeCount(2)">
+                    </span>
+                    <span class="ms-5">
+                        <span class="fs-6 fw-bolder mb-1 d-block">Limitado</span>
+                    </span>
+                </label>
+            </div>
+        </div>
+
+
+        </div>
+
+        <div class="col-3" *ngIf="type_count === 2">
+          <label class="fs-6 fw-semibold mt-2 mb-3">Precio en Soles</label>
+          <input type="number" class="form-control form-control-solid" name="num_use" [(ngModel)]="num_use" placeholder="40" />
+        </div>
+      </div>
+
+      <div class="row mb-8 align-items-center">
+
+        <div class="col-3">
+
+    <div class="row g-9">
+      <div class="col-12">
+        <label class="fs-6 fw-semibold mt-2 mb-3">Select. tipo de cupon</label>
+      </div>
+            <div class="col-12">
+                <label class="btn btn-outline btn-outline-dashed btn-outline-default d-flex text-start p-6" [ngClass]="{'active':type_coupon === 1}"  data-kt-button="true">
+                    <span class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                        <input class="form-check-input" type="radio" name="type_coupon" [checked]="type_coupon === 1" (click)="selectedTypeCoupon(1)">
+                    </span>
+                    <span class="ms-5">
+                        <span class="fs-6 fw-bolder mb-1 d-block">Cursos</span>
+                    </span>
+                </label>
+            </div>
+            <div class="col-12">
+                <label class="btn btn-outline btn-outline-dashed btn-outline-default d-flex text-start p-6" [ngClass]="{'active':type_coupon === 2}"  data-kt-button="true">
+                    <span class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
+                        <input class="form-check-input" type="radio" name="type_coupon" [checked]="type_coupon === 2" (click)="selectedTypeCoupon(2)">
+                    </span>
+                    <span class="ms-5">
+                        <span class="fs-6 fw-bolder mb-1 d-block">Categorias</span>
+                    </span>
+                </label>
+            </div>
+        </div>
+        </div>
+
+        <div class="col-3" *ngIf="type_coupon === 2">
+          <label class="fs-6 fw-semibold mt-2 mb-3">Categorias</label>
+          <div class="d-flex gap-2">
+            <select class="form-control form-select-solid fw-bolder" [(ngModel)]="categorie_id" name="categorie" placeholder="Selec. Categoria">
+              <ng-container *ngFor="let categorie of categories">
+                <option [value]="categorie.id">{{categorie.name}}</option>
+              </ng-container>
+
+            </select>
+            <button class="btn btn-sm btn-primary" (click)="addCategorieSelected()">+</button>
+          </div>
+        </div>
+        <div class="col-3" *ngIf="type_coupon === 1">
+          <label class="fs-6 fw-semibold mt-2 mb-3">Cursos</label>
+          <div class="d-flex gap-2">
+            <select class="form-control form-select-solid fw-bolder" [(ngModel)]="course_id" name="course" placeholder="Selec. Categoria">
+              <ng-container *ngFor="let course of courses">
+                <option [value]="course.id">{{course.title}}</option>
+              </ng-container>
+
+            </select>
+            <button class="btn btn-sm btn-primary" (click)="addCourseSelected()">+</button>
+          </div>
+        </div>
+
+        <div class="col-4" *ngIf="type_coupon === 1"  >
+          <div class="table-responsive">
+            <!--begin::Table-->
+            <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+              <!--begin::Table head-->
+              <thead>
+                <tr class="fw-bolder text-muted">
+
+                  <th class="min-w-200px">Curso</th>
+
+
+                  <th class="min-w-100px text-end">Actions</th>
+                </tr>
+              </thead>
+              <!--end::Table head-->
+              <!--begin::Table body-->
+              <tbody>
+                <tr *ngFor="let item of course_selecteds;let i = index">
+
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <div class="symbol symbol-45px me-5">
+                        <img [src]="item.imagen" alt="">
+                      </div>
+                      <div class="d-flex justify-content-start flex-column">
+                        <a href="#" onclick="return false;" class="text-dark fw-bolder text-hover-primary fs-6">{{item.title}}</a>
+                        <!-- <span class="text-muted fw-bold text-muted d-block fs-7">HTML, JS, ReactJS</span> -->
+                      </div>
+                    </div>
+                  </td>
+
+
+                  <td>
+                    <div class="d-flex justify-content-end flex-shrink-0">
+
+
+                      <a href="#" onclick="return false;" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm" (click)="removeCourse(i)">
+                        <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
+                        <span class="svg-icon svg-icon-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z" fill="currentColor"></path>
+                            <path opacity="0.5" d="M5 5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V5C19 5.55228 18.5523 6 18 6H6C5.44772 6 5 5.55228 5 5V5Z" fill="currentColor"></path>
+                            <path opacity="0.5" d="M9 4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V4H9V4Z" fill="currentColor"></path>
+                          </svg>
+                        </span>
+                        <!--end::Svg Icon-->
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+
+              </tbody>
+              <!--end::Table body-->
+            </table>
+            <!--end::Table-->
+          </div>
+
+        </div>
+
+        <div class="col-4" *ngIf="type_coupon === 2">
+          <div class="table-responsive">
+            <!--begin::Table-->
+            <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+              <!--begin::Table head-->
+              <thead>
+                <tr class="fw-bolder text-muted">
+
+                  <th class="min-w-200px">Categorias</th>
+
+
+                  <th class="min-w-100px text-end">Actions</th>
+                </tr>
+              </thead>
+              <!--end::Table head-->
+              <!--begin::Table body-->
+              <tbody>
+                <tr *ngFor="let item of categorie_selecteds;let i = index">
+
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <div class="symbol symbol-45px me-5">
+                        <img [src]="item.imagen" alt="">
+                      </div>
+                      <div class="d-flex justify-content-start flex-column">
+                        <a href="#" onclick="return false;" class="text-dark fw-bolder text-hover-primary fs-6">{{item.name}}</a>
+                        <!-- <span class="text-muted fw-bold text-muted d-block fs-7">HTML, JS, ReactJS</span> -->
+                      </div>
+                    </div>
+                  </td>
+
+
+                  <td>
+                    <div class="d-flex justify-content-end flex-shrink-0">
+
+
+                      <a href="#" onclick="return false;" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm" (click)="removeCategoire(i)">
+                        <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
+                        <span class="svg-icon svg-icon-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M5 9C5 8.44772 5.44772 8 6 8H18C18.5523 8 19 8.44772 19 9V18C19 19.6569 17.6569 21 16 21H8C6.34315 21 5 19.6569 5 18V9Z" fill="currentColor"></path>
+                            <path opacity="0.5" d="M5 5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V5C19 5.55228 18.5523 6 18 6H6C5.44772 6 5 5.55228 5 5V5Z" fill="currentColor"></path>
+                            <path opacity="0.5" d="M9 4C9 3.44772 9.44772 3 10 3H14C14.5523 3 15 3.44772 15 4V4H9V4Z" fill="currentColor"></path>
+                          </svg>
+                        </span>
+                        <!--end::Svg Icon-->
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+
+              </tbody>
+              <!--end::Table body-->
+            </table>
+            <!--end::Table-->
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    <!--end::Card body-->
+
+    <!--begin::Card footer-->
+    <div class="card-footer d-flex justify-content-end py-6 px-9">
+      <button type="button" (click)="save()" class="btn btn-primary" id="kt_project_settings_submit">
+        Registrar
+      </button>
+    </div>
+    <!--end::Card footer-->
+    <input type="hidden" />
+  </form>
+  <!--end:Form-->
+</div>

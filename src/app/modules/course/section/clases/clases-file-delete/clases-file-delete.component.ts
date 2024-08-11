@@ -1,17 +1,18 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CourseService } from '../service/course.service';
+import { CourseService } from '../../../service/course.service';
 import { Toaster } from 'ngx-toast-notifications';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-course-delete',
-  templateUrl: './course-delete.component.html',
-  styleUrls: ['./course-delete.component.scss']
+  selector: 'app-clases-file-delete',
+  templateUrl: './clases-file-delete.component.html',
+  styleUrls: ['./clases-file-delete.component.scss']
 })
-export class CourseDeleteComponent implements OnInit {
-  @Input() course:any
+export class ClasesFileDeleteComponent implements OnInit {
 
-  @Output() CourseD:EventEmitter<any> = new EventEmitter();
+  @Input() file_selected:any
+
+  @Output() FileD:EventEmitter<any> = new EventEmitter();
 
   isLoading :any
   constructor(
@@ -25,8 +26,8 @@ export class CourseDeleteComponent implements OnInit {
   }
 
   delete(){
-    this.courseService.deleteCourses(this.course.id).subscribe((resp:any)=>{
-      this.CourseD.emit("")
+    this.courseService.deleteClaseFila(this.file_selected.id).subscribe((resp:any)=>{
+      this.FileD.emit("")
     this.modal.dismiss()
     })
   }

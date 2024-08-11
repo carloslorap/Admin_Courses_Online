@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CourseService } from '../service/course.service';
 import { Toaster } from 'ngx-toast-notifications';
 import { ActivatedRoute } from '@angular/router';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-course-edit',
@@ -31,17 +32,23 @@ export class CourseEditComponent implements OnInit {
   sub_categorie_id :any = null
   user_id :any = null
   level :any = null
-  idioma :any = null
+  public idioma :any = null
+  state: any = 1
 
   courses_id :any
   course_selected:any = null
 
-  constructor(public courseService:CourseService,public toaster:Toaster,public activedRoute:ActivatedRoute) { }
+  isUploadVideo :boolean = false
+  video_curso:any = null
+  link_video_course:any = null
+
+
+  constructor(public courseService:CourseService,public toaster:Toaster,public activedRoute:ActivatedRoute,private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.isLoading = this.courseService.isLoading$
     this.courseService.listConfig().subscribe((resp:any)=>{
-      console.log(resp);
+
       this.categories = resp.categories
       this.subcategories = resp.subcategories
       this.instructores = resp.instructores
@@ -57,6 +64,7 @@ export class CourseEditComponent implements OnInit {
   showCourse(course_id:any){
     this.courseService.showCourse(course_id).subscribe((resp:any)=>{
       console.log(resp);
+
       this.course_selected = resp.course
 
       this.title= this.course_selected.title
@@ -74,7 +82,18 @@ export class CourseEditComponent implements OnInit {
       this.requirements =this.course_selected.requirements
       this.what_is_fors =this.course_selected.who_is_it_for
       this.imagen_previsualiza = this.course_selected.imagen
+      this.state = this.course_selected.state
+
+
+     if (this.course_selected.vimeo_id) {
+      const vimeoId = this.course_selected.vimeo_id;
+      const fullUrl = `https://player.vimeo.com/video/${vimeoId}`;
+      this.link_video_course = this.sanitizer.bypassSecurityTrustResourceUrl(fullUrl);
+     }
+
     })
+
+
   }
 
 
@@ -96,11 +115,13 @@ export class CourseEditComponent implements OnInit {
     formData.append("level",this.level)
     formData.append("idioma",this.idioma)
     formData.append("user_id",this.user_id)
+
     if (this.file_portada) {
       formData.append("portada",this.file_portada)
     }
     formData.append("requirements",this.requirements)
     formData.append("who_is_it_for",this.what_is_fors)
+    formData.append("state",this.state)
 
     this.courseService.updateCourses(formData,this.courses_id).subscribe((resp:any)=>{
       if (resp.message == 403) {
@@ -129,6 +150,27 @@ export class CourseEditComponent implements OnInit {
 
     })
   }
+
+  uploadVideo(){
+    let formData = new FormData()
+    formData.append("video",this.video_curso)
+    this.isUploadVideo = true
+    this.courseService.uploadVideo(formData,this.courses_id).subscribe((resp:any)=>{
+
+      this.isUploadVideo = false
+      console.log(resp);
+      this.link_video_course =resp.link_video
+    })
+  }
+  processVideo($event:any){
+
+    if ($event.target.files[0].type.indexOf("video") < 0) {
+      this.toaster.open({text:'Solo se acepta videos',caption:'Mensaje de validacion',type:'danger'})
+      return;
+    }
+    this.video_curso = $event.target.files[0]
+  }
+
   processFile($event:any){
     if ($event.target.files[0].type.indexOf("image") < 0) {
       this.toaster.open({text:'Solo se acepta imagenes',caption:'Mensaje de validacion',type:'danger'})

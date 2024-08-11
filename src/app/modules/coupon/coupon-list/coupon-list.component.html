@@ -16,18 +16,18 @@
               </svg>
             </span>
             <!--end::Svg Icon-->
-            <input type="text" [(ngModel)]="search" data-kt-user-table-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="Search course" (keyup.enter)="listCourse()"/>
+            <input type="text" [(ngModel)]="search" data-kt-user-table-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="Search coupon" (keyup)="listCoupon()"/>
 
             <select
             class="form-control form-select-solid fw-bolder"
             name="state"
             placeholder="Estado"
             [(ngModel)]="state"
-            (change)="listCourse()">"
+            (change)="listCoupon()">"
             >
-            <option value="1">Prueba</option>
-            <option value="2">Publico</option>
-
+            <option value="0">Todos</option>
+            <option value="1">Activo</option>
+            <option value="2">Desactivo</option>
             </select>
           </div>
           <!--end::Search-->
@@ -62,7 +62,7 @@
             <!--end::Filter-->
 
             <!--begin::Add user-->
-            <a [routerLink]="['/cursos/registro']" class="btn btn-primary" >
+            <button type="button" class="btn btn-primary" [routerLink]="['/cupones/registro']">
             <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
             <span class="svg-icon svg-icon-2">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -70,7 +70,7 @@
                 <rect x="4.36396" y="11.364" width="16" height="2" rx="1" fill="currentColor" />
               </svg>
             </span>
-            <!--end::Svg Icon-->Add Categorie</a>
+            <!--end::Svg Icon-->Add Coupon</button>
             <!--end::Add user-->
           </div>
           <!--end::Toolbar-->
@@ -96,13 +96,10 @@
             <!--begin::Table row-->
             <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
 
-              <th class="min-w-125px">Imagen</th>
-              <th class="min-w-125px">Titulo</th>
-              <th class="min-w-125px">Categoria</th>
-              <th class="min-w-125px">Precio en USD</th>
-              <th class="min-w-125px">Precio en PEN</th>
-              <th class="min-w-125px">Nivel</th>
-              <th class="min-w-125px">Idioma</th>
+              <th class="min-w-125px">Codigo</th>
+              <th class="min-w-125px">Tipo de Cupon</th>
+              <th class="min-w-125px">Tipo de Descuento</th>
+              <th class="min-w-125px">Descuento</th>
               <th class="min-w-125px">Status</th>
               <th class="text-end min-w-100px">Actions</th>
             </tr>
@@ -114,44 +111,32 @@
             <!--begin::Table row-->
           <!-- <ng-container *ngFor="let item of usuarios"> -->
 
-            <tr *ngFor="let item of courses">
+            <tr *ngFor="let item of COUPONS">
 
-              <!--begin::User=-->
-              <td class="d-flex align-items-center">
-                <!--begin:: Avatar -->
-                <div class="symbol symbol-50px overflow-hidden me-3">
-                  <a >
-                    <div class="symbol-label">
-                      <img [src]="item.imagen" alt="Emma Smith" class="w-100" *ngIf="item.imagen"/>
-                    </div>
-                  </a>
-                </div>
-                <!--end::Avatar-->
 
-              </td>
-              <!--end::User=-->
               <!--begin::Role=-->
-              <td>{{item.title}}</td>
+              <td>{{item.code}}</td>
               <!--end::Role=-->
-              <!--begin::Last login=-->
-              <td>
-                <div class="symbol symbol-50px overflow-hidden me-3">
 
-                  <a class="text-gray-800 text-hover-primary mb-1">{{item.categorie.name}}</a>
-                </div>
-               </td>
-
-               <td>{{item.precio_usd}} USD</td>
-
-               <td>{{item.precio_pen}} PEN</td>
-
-               <td>{{item.level}}</td>
-
-               <td>{{item.idioma}}</td>
 
               <td>
-                <div class="badge badge-light-warning fw-bolder" *ngIf="item.state === 1">Prueba</div>
-                <div class="badge badge-light-success fw-bolder" *ngIf="item.state === 2">Publico</div>
+                <div class="badge fw-bolder" style="color: #0BB7AF; background-color: #cdfcf9c7;" *ngIf="item.type_coupon === 1">CURSOS</div>
+                <div class="badge badge-light-info fw-bolder" *ngIf="item.type_coupon === 2">CATEGORIA</div>
+              </td>
+
+              <td>
+                <div class="badge badge-light-warning fw-bolder" *ngIf="item.type_discount === 1">(%) Porcentaje</div>
+                <div class="badge badge-light-primary fw-bolder" *ngIf="item.type_discount === 2">(S/) Monto fijo</div>
+              </td>
+
+              <td>{{item.discount}}</td>
+
+
+
+
+              <td>
+                <div class="badge badge-light-success fw-bolder" *ngIf="item.state === 1">ACTIVO</div>
+                <div class="badge badge-light-danger fw-bolder" *ngIf="item.state === 2">DESACTIVO</div>
               </td>
               <!--end::Last login=-->
 
@@ -159,23 +144,7 @@
               <td class="text-end">
                 <div class="d-flex justify-content-end flex-shrink-0">
 
-
-                  <a href="#" [routerLink]="['/cursos/list/secciones/',item.id]" onclick="return false;" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
-                    <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
-                    <span class="svg-icon svg-icon-3">
-                      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
-                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <rect id="bound" x="0" y="0" width="24" height="24"/>
-                            <path d="M3,4 L20,4 C20.5522847,4 21,4.44771525 21,5 L21,7 C21,7.55228475 20.5522847,8 20,8 L3,8 C2.44771525,8 2,7.55228475 2,7 L2,5 C2,4.44771525 2.44771525,4 3,4 Z M10,10 L20,10 C20.5522847,10 21,10.4477153 21,11 L21,13 C21,13.5522847 20.5522847,14 20,14 L10,14 C9.44771525,14 9,13.5522847 9,13 L9,11 C9,10.4477153 9.44771525,10 10,10 Z M10,16 L20,16 C20.5522847,16 21,16.4477153 21,17 L21,19 C21,19.5522847 20.5522847,20 20,20 L10,20 C9.44771525,20 9,19.5522847 9,19 L9,17 C9,16.4477153 9.44771525,16 10,16 Z" id="Combined-Shape" fill="#A1A5B7"/>
-                            <rect id="Rectangle-7-Copy-2" fill="#000000" opacity="0.3" x="2" y="10" width="5" height="10" rx="1"/>
-                        </g>
-                    </svg>
-
-                    </span>
-                    <!--end::Svg Icon-->
-                  </a>
-
-                  <a href="#" [routerLink]="['/cursos/list/edit/',item.id]" onclick="return false;" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                  <a href="#"  onclick="return false;" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1" [routerLink]="['/cupones/editar/'+item.id]">
                     <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                     <span class="svg-icon svg-icon-3">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -185,7 +154,7 @@
                     </span>
                     <!--end::Svg Icon-->
                   </a>
-                  <a href="#" onclick="return false;" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm" (click)="deleteCourse(item)">
+                  <a href="#" onclick="return false;" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm" (click)="deleteCoupon(item)">
                     <!--begin::Svg Icon | path: icons/duotune/general/gen027.svg-->
                     <span class="svg-icon svg-icon-3">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">

@@ -102,6 +102,31 @@
         </div>
       </div>
 
+
+      <div class="row mb-8">
+        <div class="col-5">
+          <label class="form-label">Sube tu video de trailer: *</label>
+          <div class="custom-file">
+            <!-- (change)="processFile($event)"  -->
+            <input type="file" class="custom-file-input" id="customFile" accept=".mp4" (change)="processVideo($event)"
+            />
+            <label class="custom-file-label" for="customFile"> Choose video</label>
+          </div>
+
+          <div *ngIf="link_video_course" class="py-4">
+
+              <div style="padding:56.25% 0 0 0;position:relative;"><iframe [src]="link_video_course" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Untitled"></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+
+
+          </div>
+
+        </div>
+        <div class="col-5">
+          <button class="btn btn-sm btn-primary" (click)="uploadVideo()" *ngIf="!isUploadVideo">+</button>
+          <span class="spinner-border spinner-border-sm align-middle ms-2" *ngIf="isUploadVideo"></span>
+        </div>
+      </div>
+
       <!--begin::Row-->
       <div class="row mb-8">
         <!--begin::Col-->
@@ -216,7 +241,21 @@
           </div>
         </div>
       </div>
+      <div class="row mb-8">
+        <div class="div-col-3">
+          <select
+          class="form-control form-select-solid fw-bolder"
+          name="state"
+          placeholder="Estado"
+          [(ngModel)]="state"
 
+          >
+          <option value="1">Prueba</option>
+          <option value="2">Publico</option>
+
+          </select>
+        </div>
+      </div>
 
     </div>
     <!--end::Card body-->
